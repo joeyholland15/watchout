@@ -22,6 +22,7 @@ var Sprite = function(cx, cy, r){
 }
 
 var Enemies = function(cx, cy, r){
+  // .gravity(0.05)
   Sprite.call(this)
 
   this.enemy = board.append("circle")
@@ -45,6 +46,7 @@ var Player = function(){
 }
 
 var makeEnemies = function(){
+  //d3.range(200)
   for(var i = 0; i < 50; i++) {
     new Enemies();
   };
@@ -72,9 +74,40 @@ var move = function(){
   },1000)
 }
 
+var collisionChecker = function() {
+  var player = d3.select(".player");
+  console.log(d3.selectAll(".enemy").data([])
+    .exit())
+//    .attr("cx",function())
+
+
+  for(var i = 0; i < enemies.length; i++) {
+    var squarX = Math.pow(parseInt(player.attr('cx')) - parseInt(enemies[i].attr('cx')),2)
+    var squarY = Math.pow(parseInt(player.attr('cy')) - parseInt(enemies[i].attr('cy')), 2); 
+    var totalR = parseInt(player.attr('r')) + parseInt(enemies[i].attr('r'))
+    if(Math.sqrt(squarX + squarY) <= r) {
+      triggerCollision(); 
+    }
+  }
+
+  setTimeout(function() {
+    collisionChecker();
+  }, 10); 
+}
+//d3.select(".player").attr('cy')
+
+var triggerCollision = function(){
+  alert("HIIIII")
+}
+
 makeEnemies();
 move();
-new Player();
+var drag =  d3.behavior.drag()
+var player = new Player();
+
+d3.select(".player")
+collisionChecker();
+
 
   
 // d3.select(".scoreboard").selectAll("div")
