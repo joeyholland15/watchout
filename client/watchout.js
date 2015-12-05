@@ -10,7 +10,7 @@ var width = 800
 var height =600
 var r = 10
 
-var board = d3.select(".scoreboard").append("svg")
+var board = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -46,16 +46,16 @@ var Player = function(){
     .call(drag)
 }
 
-var makeEnemies = function(){
+var makeEnemies = function(n){
   //d3.range(200)
-  for(var i = 0; i < 50; i++) {
+  for(var i = 0; i < n; i++) {
     new Enemies();
   };
 }
 
 var move = function(){
   var newMoves = [];
-  for (var i = 0; i < 50; i++) {
+  for (var i = 0; i < enemies; i++) {
     var newWidth = Math.floor(Math.random() * (width - r))
     var newHeight = Math.floor(Math.random() * (height - r))
     newMoves.push([newWidth, newHeight]); 
@@ -75,30 +75,31 @@ var move = function(){
   },1000)
 }
 
-// var collisionChecker = function() {
-//   var player = d3.select(".player");
-//   console.log(d3.selectAll(".enemy").data([])
-//     .exit())
-// //    .attr("cx",function())
+var collisionChecker = function() {
+  var player = d3.select(".player");
+  d3.selectAll(".enemy").data([])
+    .exit().each( function(el) {
 
+      ******
+      D3.select(this)
+      ******
 
-//   for(var i = 0; i < enemies.length; i++) {
-//     var squarX = Math.pow(parseInt(player.attr('cx')) - parseInt(enemies[i].attr('cx')),2)
-//     var squarY = Math.pow(parseInt(player.attr('cy')) - parseInt(enemies[i].attr('cy')), 2); 
-//     var totalR = parseInt(player.attr('r')) + parseInt(enemies[i].attr('r'))
-//     if(Math.sqrt(squarX + squarY) <= r) {
-//       triggerCollision(); 
-//     }
-//   }
+      var squarX = Math.pow(parseInt(player.attr('cx')) - el[0],2);
+      var squarY = Math.pow(parseInt(player.attr('cy')) - el[1],2); 
+      var totalR = 20;
+      if(Math.sqrt(squarX + squarY) <= totalR) {
+        triggerCollision(); 
+      }
+    })
 
-//   setTimeout(function() {
-//     collisionChecker();
-//   }, 10); 
-// }
+  setTimeout(function() {
+    collisionChecker();
+  }, 1); 
+}
 //d3.select(".player").attr('cy')
 
 var triggerCollision = function(){
-  alert("HIIIII")
+  console.log("YOU GOT HIT")
 }
 var drag =  d3.behavior.drag()
               .on("dragstart",function(){})
@@ -108,13 +109,15 @@ var drag =  d3.behavior.drag()
               })
               .on("dragend",function(){})
 
-makeEnemies();
+
+var enemies = 1
+makeEnemies(enemies);
 var player = new Player();
 
 var currentPlayer = d3.select(".player")
 move();
 
-// collisionChecker();
+collisionChecker();
 
 
   
