@@ -80,9 +80,9 @@ var collisionChecker = function() {
   d3.selectAll(".enemy").data([])
     .exit().each( function(el) {
 
-      ******
-      D3.select(this)
-      ******
+      //******
+      //D3.select(this)
+      //******
 
       var squarX = Math.pow(parseInt(player.attr('cx')) - el[0],2);
       var squarY = Math.pow(parseInt(player.attr('cy')) - el[1],2); 
@@ -102,12 +102,12 @@ var triggerCollision = function(){
   console.log("YOU GOT HIT")
 }
 var drag =  d3.behavior.drag()
-              .on("dragstart",function(){})
+              //.on("dragstart",function(){})
               .on("drag", function(){
                 currentPlayer.attr("cx", d3.event.x)
                 .attr("cy",d3.event.y)
               })
-              .on("dragend",function(){})
+              //.on("dragend",function(){})
 
 
 var enemies = 1
