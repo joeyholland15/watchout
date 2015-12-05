@@ -14,18 +14,34 @@ var board = d3.select(".scoreboard").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var Sprite = function(cx, cy, r){
+  this.r = r || 10
+  this.cx = cx || Math.floor(Math.random() * (width - this.r))
+  this.cy = cy || Math.floor(Math.random() * (height - this.r))
+
+}
 
 var Enemies = function(cx, cy, r){
-  this.r = r || 10
-  this.cx = Math.floor(Math.random() * (width - this.r))
-  this.cy = Math.floor(Math.random() * (height - this.r))
+  Sprite.call(this)
 
   this.enemy = board.append("circle")
-    .attr("cx", this.cx||30)
-    .attr("cy", this.cy||30)
+    .attr("class", "enemy")
+    .attr("cx", this.cx)
+    .attr("cy", this.cy)
     .attr("r", this.r)
     .attr("fill", "purple")
 
+}
+
+var Player = function(){
+  Sprite.call(this, width/2, height/2, 10)
+
+  this.player = board.append("circle")
+    .attr("class", "player")
+    .attr("cx", this.cx)
+    .attr("cy", this.cy)
+    .attr("r", this.r)
+    .attr("fill", "red")
 }
 
 var makeEnemies = function(){
@@ -42,7 +58,7 @@ var move = function(){
     newMoves.push([newWidth, newHeight]); 
   };
 
-  d3.selectAll("circle").data(newMoves)
+  d3.selectAll(".enemy").data(newMoves)
     .transition().duration(1000)
     .attr("cx", function(d){
       return d[0]
@@ -58,6 +74,7 @@ var move = function(){
 
 makeEnemies();
 move();
+new Player();
 
   
 // d3.select(".scoreboard").selectAll("div")
