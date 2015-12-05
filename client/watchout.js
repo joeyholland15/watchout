@@ -81,11 +81,11 @@ var collisionChecker = function() {
     .exit().each( function(el) {
 
       //******
-      //D3.select(this)
+      var enemy = d3.select(this)
       //******
-
-      var squarX = Math.pow(parseInt(player.attr('cx')) - el[0],2);
-      var squarY = Math.pow(parseInt(player.attr('cy')) - el[1],2); 
+      //remove parseInt if this works
+      var squarX = Math.pow(parseInt(player.attr('cx')) - parseInt(enemy.attr('cx')),2);
+      var squarY = Math.pow(parseInt(player.attr('cy')) - parseInt(enemy.attr('cy')),2); 
       var totalR = 20;
       if(Math.sqrt(squarX + squarY) <= totalR) {
         triggerCollision(); 
@@ -94,12 +94,16 @@ var collisionChecker = function() {
 
   setTimeout(function() {
     collisionChecker();
-  }, 1); 
+  }, 10); 
 }
 //d3.select(".player").attr('cy')
 
 var triggerCollision = function(){
-  console.log("YOU GOT HIT")
+  d3.select("svg").data([])
+    .exit()
+    .style("background-color", "red")
+    .transition().duration(100)
+    .style("background-color", "white")
 }
 var drag =  d3.behavior.drag()
               //.on("dragstart",function(){})
@@ -110,7 +114,7 @@ var drag =  d3.behavior.drag()
               //.on("dragend",function(){})
 
 
-var enemies = 1
+var enemies = 10
 makeEnemies(enemies);
 var player = new Player();
 
