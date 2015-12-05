@@ -3,4 +3,24 @@
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
 
+.enemy{
+  position: float:;
+  animation-duration: .1s;
+  animation-name:spin;
+  animation-iteration-count: infinite;
+}
 
+@keyframes spin{
+  from{
+    transform-origin :50% 50%;
+    -ms-transform: rotate(0deg); 
+    -webkit-transform: rotate(0deg); 
+    transform: rotate(0deg);    
+  }
+  to{
+    transform-origin :50% 50%;
+    -ms-transform: rotate(72deg); 
+    -webkit-transform: rotate(72deg); 
+    transform: rotate(72deg);
+  }
+}
