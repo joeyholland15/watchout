@@ -19,7 +19,7 @@ var Enemies = function(cx, cy, r){
     .style("padding", "5px")
     .style("border", "5px solid black")
         .attr("class", "enemy")
-        .attr("xlink:href", "shuriken.png")
+        .attr("xlink:href", "imgs/shuriken.png")
         .attr("height" , imageHeight)
         .attr("width" , imageWidth)
         .attr("x", this.cx)
@@ -45,12 +45,13 @@ var makeEnemies = function(n){
 var Player = function(){
   Sprite.call(this, width/2, height/2, 10)
 
-  this.player = board.append("circle")
+  this.player = board.append("svg:image")
     .attr("class", "player")
-    .attr("cx", this.cx)
-    .attr("cy", this.cy)
-    .attr("r", this.r)
-    .attr("fill", "red")
+    .attr("xlink:href" , "imgs/ninja2.png")
+    .attr("x", this.cx)
+    .attr("y", this.cy)
+    .attr("height", playerHeight)
+    .attr("width", playerWidth)
     .call(drag)
 }
 
@@ -92,9 +93,9 @@ var collisionChecker = function() {
       var enemy = d3.select(this)
       //******
       //remove parseInt if this works
-      var squarX = Math.pow(parseInt(player.attr('cx')) - parseInt(enemy.attr('x')),2);
-      var squarY = Math.pow(parseInt(player.attr('cy')) - parseInt(enemy.attr('y')),2); 
-      var totalR = r + imageR;
+      var squarX = Math.pow(parseInt(player.attr('x')) - parseInt(enemy.attr('x')),2);
+      var squarY = Math.pow(parseInt(player.attr('y')) - parseInt(enemy.attr('y')),2); 
+      var totalR = playerR + imageR;
       if(Math.sqrt(squarX + squarY) <= totalR) {
         triggerCollision(); 
         wasCollision = true; 
@@ -109,13 +110,13 @@ var collisionChecker = function() {
 //d3.select(".player").attr('cy')
 
 var triggerCollision = function(){
-  d3.select("svg").data([])
+  d3.select("image").data([])
     .exit()
-    .style("background-color", "red")
+    .attr("xlink:href", "imgs/red.png")
+    .attr("height", "100%")
+    .attr("width", "100%")
     .transition().duration(100)
-    .style("background-color", "white")
-
-
+    .attr("xlink:href", "imgs/background.jpg")
 }
 
 var updateScore = function(bool){
@@ -142,20 +143,25 @@ var updateScore = function(bool){
 var drag =  d3.behavior.drag()
               //.on("dragstart",function(){})
               .on("drag", function(){
-                currentPlayer.attr("cx", d3.event.x)
-                .attr("cy",d3.event.y)
+                currentPlayer.attr("x", d3.event.x)
+                .attr("y",d3.event.y)
               })
               //.on("dragend",function(){})
 
 
 
-var width = 800
-var height =600
+var width = 1366
+var height =768
 var r = 10
 var board = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height)
     .style("border", "1px solid black")
+
+d3.select("svg").append("image")
+    .attr("xlink:href" , "imgs/background.jpg")
+    .attr("height" , height)
+    .attr("width" , width)
 
 
 
@@ -164,9 +170,13 @@ var currentScore = 0;
 var collisions = 0;
 var enemies = 10
 var wasCollision = false;
-var imageHeight = 40;
-var imageWidth = 40;
-var imageR = 20
+var imageHeight = 60;
+var imageWidth = 60;
+var imageR = 30
+
+var playerHeight = 60;
+var playerWidth = 60;
+var playerR = 30;
 
 makeEnemies(enemies);
 var player = new Player();
